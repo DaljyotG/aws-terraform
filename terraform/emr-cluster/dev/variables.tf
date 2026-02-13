@@ -72,3 +72,27 @@ variable "configurations_json" {
   type        = string
   default     = ""
 }
+
+variable "termination_protection" {
+  description = "Enable termination protection"
+  type        = bool
+  default     = false
+}
+
+variable "keep_job_flow_alive_when_no_steps" {
+  description = "Keep cluster alive when no steps are running"
+  type        = bool
+  default     = true
+}
+
+variable "auto_termination_timeout" {
+  description = "Auto-termination timeout in seconds"
+  type        = number
+  default     = 21600  # 6 hours
+}
+
+variable "unhealthy_node_replacement" {
+  description = "Enable unhealthy node replacement"
+  type        = bool
+  default     = true
+}

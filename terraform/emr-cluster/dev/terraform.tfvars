@@ -54,3 +54,8 @@ configurations_json = ""
 #     }
 #   }
 # ])
+
+termination_protection            = false  
+keep_job_flow_alive_when_no_steps = true   
+auto_termination_timeout          = 21600  
+unhealthy_node_replacement        = true   
