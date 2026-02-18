@@ -1,0 +1,46 @@
+name: Terraform Create
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'terraform/**'
+      - '!terraform/**/.destroy'
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  create:
+    name: Create Resources
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform/emr-cluster/dev
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+        working-directory: terraform/emr-cluster/dev
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
+        working-directory: terraform/emr-cluster/dev

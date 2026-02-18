@@ -1,0 +1,49 @@
+name: Terraform Destroy Marker
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'terraform/**/.destroy'
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  destroy:
+    name: Destroy Marked Resources
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform/emr-cluster/dev
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+        working-directory: terraform/emr-cluster/dev
+
+      - name: Remove .destroy marker
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git rm terraform/emr-cluster/dev/.destroy
+          git commit -m "Remove .destroy marker [skip ci]"
+          git pull --rebase origin master
+          git push

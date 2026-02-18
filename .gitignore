@@ -1,5 +1,5 @@
 # Exclude .github directory
-.github/
+#.github/
 
 # Exclude .kiro directory
 .kiro/
