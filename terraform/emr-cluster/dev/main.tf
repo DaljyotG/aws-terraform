@@ -28,9 +28,9 @@ module "emr_cluster" {
   task_instance_count  = var.task_instance_count
 
   # Bootstrap actions
-  # bootstrap_action_path = local.bootstrap_action_path
-  # bootstrap_action_name = var.bootstrap_action_name
-  # bootstrap_action_args = var.bootstrap_action_args
+  bootstrap_action_path = local.bootstrap_action_path
+  bootstrap_action_name = var.bootstrap_action_name
+  bootstrap_action_args = var.bootstrap_action_args
 
   # Software Configuration
   configurations_json = var.configurations_json

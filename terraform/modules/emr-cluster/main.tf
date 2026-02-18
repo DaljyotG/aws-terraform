@@ -23,12 +23,24 @@ resource "aws_emr_cluster" "cluster" {
     name           = var.master_instance_group_name
     instance_type  = var.master_instance_type
     instance_count = 1
+
+    ebs_config {
+      size                 = 32
+      type                 = "gp3"
+      volumes_per_instance = 1
+    }
   }
 
   core_instance_group {
     name           = var.core_instance_group_name
     instance_type  = var.core_instance_type
     instance_count = var.core_instance_count
+
+    ebs_config {
+      size                 = 32
+      type                 = "gp3"
+      volumes_per_instance = 1
+    }
   }
 
   service_role = var.service_role_arn

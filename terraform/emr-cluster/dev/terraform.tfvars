@@ -1,12 +1,12 @@
 # Cluster Configuration (change these frequently)
 cluster_name = "dev-emr-cluster"
-emr_version  = "emr-7.10.0"
+emr_version  = "emr-6.8.0"
 applications = [
   "Spark",
   "Hadoop",
   "Hive",
   "Hbase",
-  "JupyterEnterpriseGateway",
+  #"JupyterEnterpriseGateway",
   # "AmazonCloudWatchAgent",  # Available 7.X+
   # "Flink",
   # "Hue",
@@ -16,44 +16,28 @@ applications = [
   # "Pig",
   # "Presto",
   # "Sqoop",  # Removed 7.4+
-  # "Tez",
+   "Tez",
   # "Zeppelin",
   # "ZooKeeper",
-  # "Ganglia",  # Removed 7.X
+   "Ganglia",  # Removed 7.X
   # "MXNet",  # Removed 7.3+
   # "TensorFlow",
 ]
 
 # Instance Configuration
-master_instance_type = "r5.2xlarge"
-core_instance_type   = "r5.2xlarge"
+master_instance_type = "m5.xlarge"
+core_instance_type   = "m5.xlarge"
 core_instance_count  = 2
 task_instance_type   = "r5.2xlarge"
-task_instance_count  = 3
+task_instance_count  = 0
 
 # Bootstrap Action
 bootstrap_script_name = ""  
 bootstrap_action_name = ""
 bootstrap_action_args = []
 
-# Software Configuration 
 configurations_json = ""
 
-# Enable storing Hive/Spark metadata in AWS Glue Data Catalog
-# configurations_json = jsonencode([
-#   {
-#     "Classification" : "hive-site",
-#     "Properties" : {
-#       "hive.metastore.client.factory.class" : "com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory"
-#     }
-#   },
-#   {
-#     "Classification" : "spark-hive-site",
-#     "Properties" : {
-#       "hive.metastore.client.factory.class" : "com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory"
-#     }
-#   }
-# ])
 
 termination_protection            = false  
 keep_job_flow_alive_when_no_steps = true   
